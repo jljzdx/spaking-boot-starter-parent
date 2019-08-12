@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>spaking-boot-starter-dependencies</artifactId>
+    <groupId>com.spakingframework.boot</groupId>
+    <version>SPAKING-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>Spaking Boot Starter Dependencies</name>
+    <description>Spaking Boot Starter Dependencies</description>
+    <properties>
+        <project.spring.cloud.dependencies>Greenwich.RELEASE</project.spring.cloud.dependencies>
+        <project.spaking.boot.core>1.0-SNAPSHOT</project.spaking.boot.core>
+    </properties>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${project.spring.cloud.dependencies}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.spakingframework.boot</groupId>
+                <artifactId>spaking-boot-starter-core</artifactId>
+                <version>${project.spaking.boot.core}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.spakingframework.boot</groupId>
+                <artifactId>spaking-boot-starter-redis</artifactId>
+                <version>${project.spaking.boot.core}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.spakingframework.boot</groupId>
+                <artifactId>spaking-boot-starter-cas</artifactId>
+                <version>${project.spaking.boot.core}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.spakingframework.boot</groupId>
+                <artifactId>spaking-boot-starter-mysql</artifactId>
+                <version>${project.spaking.boot.core}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+</project>
