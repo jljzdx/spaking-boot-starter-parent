@@ -12,4 +12,10 @@ public class PageModel {
 
     //总记录数
     private Long total;
+
+    //排序字段
+    private String field;
+
+    //排序方向
+    private String order;
 }
