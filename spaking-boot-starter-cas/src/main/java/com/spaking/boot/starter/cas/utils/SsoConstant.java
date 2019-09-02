@@ -25,7 +25,7 @@ public class SsoConstant {
     /**
      * sso server address (web + token client)
      */
-    public static final String SSO_SERVER = "sso_server";
+    public static final String SSO_SERVERS = "sso_servers";
 
     /**
      * login url, server relative path (web client)

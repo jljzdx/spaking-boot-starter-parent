@@ -3,34 +3,40 @@ package com.spaking.boot.starter.cas.filter;
 
 import com.spaking.boot.starter.cas.model.SsoUser;
 import com.spaking.boot.starter.cas.utils.AntPathMatcher;
+import com.spaking.boot.starter.cas.utils.BalanceUtil;
 import com.spaking.boot.starter.cas.utils.SsoConstant;
 import com.spaking.boot.starter.cas.utils.SsoWebLoginHelper;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-
+@Slf4j
 public class SsoWebFilter extends HttpServlet implements Filter {
 
     private static final AntPathMatcher antPathMatcher = new AntPathMatcher();
 
-    private String ssoServer;
+    private String ssoServers;
     private String logoutPath;
     private String excludedPaths;
 
     @Override
     public void init(FilterConfig filterConfig) {
-        ssoServer = filterConfig.getInitParameter(SsoConstant.SSO_SERVER);
+        log.info("sso web filter init start ...............");
+        ssoServers = filterConfig.getInitParameter(SsoConstant.SSO_SERVERS);
         logoutPath = filterConfig.getInitParameter(SsoConstant.SSO_LOGOUT_PATH);
         excludedPaths = filterConfig.getInitParameter(SsoConstant.SSO_EXCLUDED_PATHS);
     }
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+        log.info("sso web filter doFilter start ...............");
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse res = (HttpServletResponse) response;
+        String [] ips = ssoServers.split(",");
+        String ssoServer = BalanceUtil.getRoundRobinIp(ips);
 
         // make url
         String servletPath = req.getServletPath();
