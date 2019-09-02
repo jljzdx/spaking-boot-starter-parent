@@ -32,7 +32,7 @@ public class SsoWebFilter extends HttpServlet implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        log.info("sso web filter doFilter start ...............");
+        log.info("sso web filter doFilter start ...............["+ssoServers+"]");
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse res = (HttpServletResponse) response;
         String [] ips = ssoServers.split(",");
