@@ -1,27 +1,26 @@
 package com.spaking.boot.starter.cas.utils;
 
 import com.spaking.boot.starter.cas.model.SsoUser;
+import com.spaking.boot.starter.redis.utils.RedisUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
-import java.util.concurrent.TimeUnit;
-
 @Component
+@Slf4j
 public class SsoLoginStore {
 
-    private static RedisTemplate redisTemplate;
+    private static RedisUtil redisUtil;
 
     @Autowired
-    public SsoLoginStore(RedisTemplate redisTemplate) {
-        SsoLoginStore.redisTemplate = redisTemplate;
+    public SsoLoginStore(RedisUtil redisUtil) {
+        SsoLoginStore.redisUtil = redisUtil;
     }
-    private static int redisExpireMinite = 60*60;    // 1440 minite, 24 hour
+    private static int redisExpireMinite = 24*60;    // 1440 minite, 24 hour
 
     public static int getRedisExpireMinite() {
         return redisExpireMinite;
     }
-
     /**
      * get
      *
@@ -29,14 +28,10 @@ public class SsoLoginStore {
      * @return
      */
     public static SsoUser get(String storeKey) {
-
         String redisKey = redisKey(storeKey);
-        Object objectValue = redisTemplate.opsForValue().get(redisKey);
-        if (objectValue != null) {
-            SsoUser ssoUser = (SsoUser) objectValue;
-            return ssoUser;
-        }
-        return null;
+        SsoUser ssoUser = redisUtil.get(redisKey);
+        log.info("SsoLoginStore get："+ssoUser);
+        return ssoUser;
     }
 
     /**
@@ -46,7 +41,8 @@ public class SsoLoginStore {
      */
     public static void remove(String storeKey) {
         String redisKey = redisKey(storeKey);
-        redisTemplate.delete(redisKey);
+        Boolean result = redisUtil.delete(redisKey);
+        log.info("SsoLoginStore remove："+result);
     }
 
     /**
@@ -57,7 +53,8 @@ public class SsoLoginStore {
      */
     public static void put(String storeKey, SsoUser ssoUser) {
         String redisKey = redisKey(storeKey);
-        redisTemplate.opsForValue().set(redisKey,ssoUser,redisExpireMinite, TimeUnit.SECONDS);
+        Boolean result = redisUtil.setx(redisKey,ssoUser,redisExpireMinite*60L);
+        log.info("SsoLoginStore put："+result);
     }
 
     private static String redisKey(String sessionId){

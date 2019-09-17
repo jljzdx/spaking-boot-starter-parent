@@ -40,6 +40,7 @@ public class SsoWebFilter extends HttpServlet implements Filter {
 
         // make url
         String servletPath = req.getServletPath();
+        log.info("sso web filter doFilter servletPath："+servletPath);
 
         if (excludedPaths!=null && excludedPaths.trim().length()>0) {
             for (String excludedPath:excludedPaths.split(",")) {

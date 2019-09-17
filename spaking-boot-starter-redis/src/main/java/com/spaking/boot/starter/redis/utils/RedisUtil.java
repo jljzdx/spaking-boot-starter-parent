@@ -1,29 +1,53 @@
 package com.spaking.boot.starter.redis.utils;
 
-//@Component
-public class RedisUtil<K, V> {
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.ReactiveRedisTemplate;
+import org.springframework.stereotype.Component;
+import reactor.core.publisher.Mono;
 
-    /*@Autowired
-    private RedisCommands<K, V> redisSync;
+import java.time.Duration;
+
+@Component
+public class RedisUtil {
 
     @Autowired
-    private RedisAsyncCommands<K, V> redisAsync;
+    private ReactiveRedisTemplate redisTemplate;
 
-    *//**
-     * Redis synchronization 阻塞方法
-     *
+    /**
+     * 获取
+     * @param key
+     * @param <T>
      * @return
-     *//*
-    public RedisCommands<K, V> sync() {
-        return redisSync;
+     */
+    public <T> T get(String key){
+        Mono<Object> mono = redisTemplate.opsForValue().get(key);
+        Object object = mono.block();
+        if(null == object){
+            return null;
+        }
+        return (T)object;
+    }
+    /**
+     * 存储
+     * @param key
+     * @param object
+     * @param seconds
+     * @return
+     */
+    public Boolean setx(String key, Object object, Long seconds){
+        Duration duration = Duration.ofSeconds(seconds);
+        Mono<Boolean> mono = redisTemplate.opsForValue().set(key,object,duration);
+        return mono.block();
     }
 
-    *//**
-     * Redis asynchronization 非阻塞方法
-     *
+    /**
+     * 删除
+     * @param key
      * @return
-     *//*
-    public RedisAsyncCommands<K, V> async() {
-        return redisAsync;
-    }*/
+     */
+    public Boolean delete(String key){
+        Mono<Boolean> mono = redisTemplate.opsForValue().delete(key);
+        return mono.block();
+    }
+
 }
