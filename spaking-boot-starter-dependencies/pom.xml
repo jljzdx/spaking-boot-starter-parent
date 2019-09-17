@@ -10,7 +10,7 @@
     <name>Spaking Boot Starter Dependencies</name>
     <description>Spaking Boot Starter Dependencies</description>
     <properties>
-        <project.spring.cloud.dependencies>Greenwich.RELEASE</project.spring.cloud.dependencies>
+        <project.spring.cloud.dependencies>Greenwich.SR3</project.spring.cloud.dependencies>
         <project.spaking.boot.core>1.0-SNAPSHOT</project.spaking.boot.core>
     </properties>
     <dependencyManagement>
