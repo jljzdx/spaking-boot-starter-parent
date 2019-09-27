@@ -50,4 +50,14 @@ public class RedisUtil {
         return mono.block();
     }
 
+    /**
+     * 递增：计数器
+     * @param key
+     * @return
+     */
+    public Boolean increase(String key){
+        Mono<Boolean> mono = redisTemplate.opsForValue().increment(key);
+        return mono.block();
+    }
+
 }
