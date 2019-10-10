@@ -10,7 +10,6 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.stereotype.Component;
-
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
@@ -30,10 +29,10 @@ public class LogAop {
         Object[] args = joinPoint.getArgs();
         if(args.length>0){
             Object object = args[0];
-            log.info("RequestDTO=" + JSON.toJSONString(object));
             //获取自定义注解
             MethodSignature ms = (MethodSignature) joinPoint.getSignature();
             BusinessLogger authority =  ms.getMethod().getAnnotation(BusinessLogger.class);
+            log.info("["+authority.key()+"->"+authority.value()+"] RequestDTO=" + JSON.toJSONString(object));
             obj = joinPoint.proceed(args);
             Class<?> resultClz = obj.getClass();
             //父类
@@ -46,7 +45,7 @@ public class LogAop {
             Field field = queryParentClz.getDeclaredField("transactionStatus");
             field.setAccessible(true);
             field.set(obj,transactionStatus);
-            log.info("ResponseDTO=" + JSON.toJSONString(obj));
+            log.info("["+authority.key()+"->"+authority.value()+"] ResponseDTO=" + JSON.toJSONString(obj));
         }else{
             obj = joinPoint.proceed();
         }
