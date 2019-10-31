@@ -53,8 +53,7 @@ public class SsoLoginStore {
      */
     public static void put(String storeKey, SsoUser ssoUser) {
         String redisKey = redisKey(storeKey);
-        Boolean result = redisUtil.setx(redisKey,ssoUser,redisExpireMinite*60L);
-        log.info("SsoLoginStore put："+result);
+        redisUtil.set(redisKey,ssoUser,redisExpireMinite*60L);
     }
 
     private static String redisKey(String sessionId){

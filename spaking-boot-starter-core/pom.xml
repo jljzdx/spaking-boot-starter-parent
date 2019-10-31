@@ -38,5 +38,11 @@
             <version>3.8.1</version>
             <scope>compile</scope>
         </dependency>
+        <!--spaking-redis-->
+        <dependency>
+            <groupId>com.spakingframework.boot</groupId>
+            <artifactId>spaking-boot-starter-redis</artifactId>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 </project>
