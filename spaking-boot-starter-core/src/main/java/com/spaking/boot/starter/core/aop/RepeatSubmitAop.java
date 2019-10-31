@@ -52,6 +52,7 @@ public class RepeatSubmitAop {
         Boolean isSuccess = redisUtil.tryLock(key, value, seconds);
         if (isSuccess) {
             log.info("tryLock success, key = [{}], value = [{}]", key, value);
+            //Thread.sleep(3000L);
             Object obj;
             try {
                 //执行方法

@@ -10,7 +10,7 @@ import java.lang.annotation.Target;
 public @interface AvoidRepeatSubmit {
 
     /**
-     * 指定时间内不可重复提交,单位秒
+     * 指定时间内不可重复提交,单位毫秒
      * @return
      */
     long timeout() default 10000;
