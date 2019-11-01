@@ -19,6 +19,12 @@ import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
 import java.util.UUID;
 
+/**
+ * 重复提交场景：
+ * 1、在网络延迟的情况下让用户有时间点击多次submit按钮导致表单重复提交
+ * 2、表单提交后用户点击【刷新】按钮导致表单重复提交
+ * 3、用户提交表单后，点击浏览器的【后退】按钮回退到表单页面后进行再次提交
+ */
 @Aspect
 @Component
 @Slf4j
@@ -34,15 +40,12 @@ public class RepeatSubmitAop {
     @Around("cutRepeatSubmit()")
     public Object around(ProceedingJoinPoint joinPoint) throws Throwable{
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
-
         MethodSignature ms = (MethodSignature) joinPoint.getSignature();
         Method method = ms.getMethod();
         //获取自定义注解
         AvoidRepeatSubmit annotation =  method.getAnnotation(AvoidRepeatSubmit.class);
-        String path = request.getServletPath();
-        log.info("path：{}",path);//如：/cms/admin/role/addition
+        String path = request.getServletPath();//如：/cms/admin/role/addition
         String token = request.getHeader("Authorization");
-        log.info("token：{}",token);
         //key-value
         String key = token + path;
         String value = UUID.randomUUID().toString();
@@ -52,7 +55,6 @@ public class RepeatSubmitAop {
         Boolean isSuccess = redisUtil.tryLock(key, value, seconds);
         if (isSuccess) {
             log.info("tryLock success, key = [{}], value = [{}]", key, value);
-            //Thread.sleep(3000L);
             Object obj;
             try {
                 //执行方法
