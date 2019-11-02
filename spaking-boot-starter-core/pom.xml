@@ -11,6 +11,13 @@
     <artifactId>spaking-boot-starter-core</artifactId>
 
     <dependencies>
+        <!--spaking-->
+        <dependency>
+            <groupId>com.spakingframework.boot</groupId>
+            <artifactId>spaking-boot-starter-redis</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <!--spring-boot-starter-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -20,6 +27,7 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-aop</artifactId>
         </dependency>
+        <!--lombok-->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -32,17 +40,12 @@
             <version>1.2.56</version>
             <scope>compile</scope>
         </dependency>
+        <!--jwt-->
         <dependency>
             <groupId>com.auth0</groupId>
             <artifactId>java-jwt</artifactId>
             <version>3.8.1</version>
             <scope>compile</scope>
-        </dependency>
-        <!--spaking-redis-->
-        <dependency>
-            <groupId>com.spakingframework.boot</groupId>
-            <artifactId>spaking-boot-starter-redis</artifactId>
-            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>

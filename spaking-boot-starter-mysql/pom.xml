@@ -11,6 +11,7 @@
     <artifactId>spaking-boot-starter-mysql</artifactId>
 
     <dependencies>
+        <!--spring-boot-starter-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
